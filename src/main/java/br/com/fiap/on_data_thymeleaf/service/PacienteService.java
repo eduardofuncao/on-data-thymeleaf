@@ -35,7 +35,7 @@ public class PacienteService {
 
     public PacienteDTO buscarPacientePorId(Long id) {
         Paciente foundPaciente = pacienteRepository.findById(id)
-                .orElseThrow(() -> new NaoEncontradoException("Paciente não encontrado"));
+                .orElseThrow(() -> new NaoEncontradoException("Paciente não encontrado id: " + id));
         return convertToDTO(foundPaciente);
     }
 

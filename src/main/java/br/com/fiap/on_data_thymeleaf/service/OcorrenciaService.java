@@ -1,6 +1,7 @@
 package br.com.fiap.on_data_thymeleaf.service;
 
 import br.com.fiap.on_data_thymeleaf.controller.dto.OcorrenciaDTO;
+import br.com.fiap.on_data_thymeleaf.controller.dto.PacienteDTO;
 import br.com.fiap.on_data_thymeleaf.entity.Dentista;
 import br.com.fiap.on_data_thymeleaf.entity.Doenca;
 import br.com.fiap.on_data_thymeleaf.entity.Ocorrencia;
@@ -22,17 +23,18 @@ import java.util.stream.Collectors;
 @Service
 public class OcorrenciaService {
 
-    @Autowired
-    private OcorrenciaRepository ocorrenciaRepository;
+    private final OcorrenciaRepository ocorrenciaRepository;
+    private final PacienteRepository pacienteRepository;
+    private final DoencaRepository doencaRepository;
+    private final DentistaRepository dentistaRepository;
 
-    @Autowired
-    private PacienteRepository pacienteRepository;
-
-    @Autowired
-    private DoencaRepository doencaRepository;
-
-    @Autowired
-    private DentistaRepository dentistaRepository;
+    public OcorrenciaService(OcorrenciaRepository ocorrenciaRepository, PacienteRepository pacienteRepository,
+                             DoencaRepository doencaRepository, DentistaRepository dentistaRepository) {
+        this.ocorrenciaRepository = ocorrenciaRepository;
+        this.pacienteRepository = pacienteRepository;
+        this.doencaRepository = doencaRepository;
+        this.dentistaRepository = dentistaRepository;
+    }
 
     public OcorrenciaDTO criarOcorrencia(OcorrenciaDTO ocorrenciaDTO) {
         Ocorrencia ocorrencia = convertToEntity(ocorrenciaDTO);
@@ -44,8 +46,9 @@ public class OcorrenciaService {
             }
         }
 
+        List<Paciente> pacientes = pacienteRepository.findAll();
         Paciente paciente = pacienteRepository.findById(ocorrenciaDTO.getPacienteId())
-                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Paciente não encontrado id" + ocorrenciaDTO.getPacienteId()));
 
         Doenca doenca = doencaRepository.findById(ocorrenciaDTO.getDoencaId())
                         .orElseThrow(() -> new RuntimeException("Doença não encontrada"));
@@ -63,10 +66,18 @@ public class OcorrenciaService {
     }
 
     public List<OcorrenciaDTO> listarOcorrencias() {
-        return ocorrenciaRepository.findAll()
-                .stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        List<Ocorrencia> ocorrencias = ocorrenciaRepository.findAll();
+
+        return ocorrencias.stream().map(ocorrencia -> {
+            OcorrenciaDTO returnedOcorrenciaDTO = convertToDTO(ocorrencia);
+            returnedOcorrenciaDTO.setDentistaId(ocorrencia.getDentista().getId());
+            returnedOcorrenciaDTO.setDentistaNome(ocorrencia.getDentista().getNome());
+            returnedOcorrenciaDTO.setDoencaId(ocorrencia.getDoenca().getId());
+            returnedOcorrenciaDTO.setDoencaNome(ocorrencia.getDoenca().getNome());
+            returnedOcorrenciaDTO.setPacienteId(ocorrencia.getPaciente().getId());
+            returnedOcorrenciaDTO.setPacienteNome(ocorrencia.getPaciente().getNome());
+            return returnedOcorrenciaDTO;
+        }).toList();
     }
 
     public List<OcorrenciaDTO> listarOcorrenciasAprovadas() {
@@ -80,7 +91,7 @@ public class OcorrenciaService {
         return ocorrenciaRepository.findByAprovadoFalse()
                 .stream()
                 .map(this::convertToDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public OcorrenciaDTO buscarOcorrenciaPorId(Long id) {
@@ -110,6 +121,7 @@ public class OcorrenciaService {
         ocorrenciaDTO.setValor(ocorrencia.getValor());
         ocorrenciaDTO.setDuracaoHoras(ocorrencia.getDuracaoHoras());
 
+
         return ocorrenciaDTO;
     }
 
@@ -119,7 +131,7 @@ public class OcorrenciaService {
         ocorrencia.setData(ocorrenciaDTO.getData());
         ocorrencia.setCodigoOcorrencia(ocorrenciaDTO.getCodigoOcorrencia());
         ocorrencia.setValor(ocorrenciaDTO.getValor());
-        ocorrenciaDTO.setDuracaoHoras(ocorrenciaDTO.getDuracaoHoras());
+        ocorrencia.setDuracaoHoras(ocorrenciaDTO.getDuracaoHoras());
 
         return ocorrencia;
     }

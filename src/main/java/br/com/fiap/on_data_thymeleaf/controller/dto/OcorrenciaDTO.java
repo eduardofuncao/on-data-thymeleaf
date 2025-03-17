@@ -17,10 +17,12 @@ public class OcorrenciaDTO extends RepresentationModel<OcorrenciaDTO> {
     private boolean aprovada;
 
     private long pacienteId;
-
     private long doencaId;
-
     private long dentistaId;
+
+    private String pacienteNome;
+    private String doencaNome;
+    private String dentistaNome;
 
     public LocalDateTime getData() {
         return data;
@@ -92,5 +94,29 @@ public class OcorrenciaDTO extends RepresentationModel<OcorrenciaDTO> {
 
     public void setDentistaId(long dentistaId) {
         this.dentistaId = dentistaId;
+    }
+
+    public String getPacienteNome() {
+        return pacienteNome;
+    }
+
+    public void setPacienteNome(String pacienteNome) {
+        this.pacienteNome = pacienteNome;
+    }
+
+    public String getDoencaNome() {
+        return doencaNome;
+    }
+
+    public void setDoencaNome(String doencaNome) {
+        this.doencaNome = doencaNome;
+    }
+
+    public String getDentistaNome() {
+        return dentistaNome;
+    }
+
+    public void setDentistaNome(String dentistaNome) {
+        this.dentistaNome = dentistaNome;
     }
 }

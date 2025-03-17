@@ -34,24 +34,9 @@
                     <tr th:each="ocorrencia : ${ocorrencias}" th:class="${ocorrencia.aprovada ? 'table-success' : ''}">
                         <td th:text="${ocorrencia.codigoOcorrencia}">OC-001</td>
                         <td th:text="${#temporals.format(ocorrencia.data, 'dd/MM/yyyy HH:mm')}">01/01/2025 10:00</td>
-                        <!-- Map pacienteId to paciente.nome -->
-                        <td>
-                                    <span th:each="paciente : ${pacientes}"
-                                          th:if="${paciente.id == ocorrencia.pacienteId}"
-                                          th:text="${paciente.nome}">Nome do Paciente</span>
-                        </td>
-                        <!-- Map dentistaId to dentista.nome -->
-                        <td>
-                                    <span th:each="dentista : ${dentistas}"
-                                          th:if="${dentista.id == ocorrencia.dentistaId}"
-                                          th:text="${dentista.nome}">Nome do Dentista</span>
-                        </td>
-                        <!-- Map doencaId to doenca.nome -->
-                        <td>
-                                    <span th:each="doenca : ${doencas}"
-                                          th:if="${doenca.id == ocorrencia.doencaId}"
-                                          th:text="${doenca.nome}">Nome da Doença</span>
-                        </td>
+                        <td th:text="${ocorrencia.pacienteNome}">Nome do Paciente</td>
+                        <td th:text="${ocorrencia.dentistaNome}">Nome do Dentista</td>
+                        <td th:text="${ocorrencia.dentistaNome}">Nome da Doenca</td>
                         <td th:text="${'R$ ' + #numbers.formatDecimal(ocorrencia.valor, 1, 'POINT', 2, 'COMMA')}">R$ 100,00</td>
                         <td th:text="${ocorrencia.duracaoHoras + ' h'}">2.0 h</td>
                         <td>

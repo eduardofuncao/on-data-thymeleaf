@@ -45,7 +45,7 @@
                     <div class="col-md-4">
                         <label for="pacienteId" class="form-label">Paciente</label>
                         <select class="form-select" id="pacienteId" th:field="*{pacienteId}" required>
-                            <option value="">Selecione um paciente</option>
+                            <option value="0">Selecione um paciente</option>
                             <option th:each="paciente : ${pacientes}"
                                     th:value="${paciente.id}"
                                     th:text="${paciente.nome}">Nome do Paciente</option>
@@ -55,7 +55,7 @@
                     <div class="col-md-4">
                         <label for="dentistaId" class="form-label">Dentista</label>
                         <select class="form-select" id="dentistaId" th:field="*{dentistaId}" required>
-                            <option value="">Selecione um dentista</option>
+                            <option value="0">Selecione um dentista</option>
                             <option th:each="dentista : ${dentistas}"
                                     th:value="${dentista.id}"
                                     th:text="${dentista.nome}">Nome do Dentista</option>
@@ -65,7 +65,7 @@
                     <div class="col-md-4">
                         <label for="doencaId" class="form-label">Doença</label>
                         <select class="form-select" id="doencaId" th:field="*{doencaId}" required>
-                            <option value="">Selecione uma doença</option>
+                            <option value="0">Selecione uma doença</option>
                             <option th:each="doenca : ${doencas}"
                                     th:value="${doenca.id}"
                                     th:text="${doenca.nome}">Nome da Doença</option>

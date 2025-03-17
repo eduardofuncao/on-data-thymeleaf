@@ -16,6 +16,7 @@ public class Paciente {
     @NotBlank(message = "Nome não pode ser vazio")
     private String nome;
 
+    @Enumerated(EnumType.STRING)
     private Genero genero;
 
     private int idade;
@@ -33,6 +34,7 @@ public class Paciente {
 
     private double visitasPorAno;
 
+    @Enumerated(EnumType.STRING)
     private Categoria categoria;
     
     @OneToMany(mappedBy = "paciente")

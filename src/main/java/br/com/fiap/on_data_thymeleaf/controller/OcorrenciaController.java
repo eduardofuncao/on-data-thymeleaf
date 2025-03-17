@@ -34,9 +34,6 @@ public class OcorrenciaController {
     @GetMapping
     public String listarOcorrencias(Model model) {
         model.addAttribute("ocorrencias", ocorrenciaService.listarOcorrencias());
-        model.addAttribute("pacientes", pacienteService.listarPacientes());
-        model.addAttribute("dentistas", dentistaService.listarDentistas());
-        model.addAttribute("doencas", doencaService.listarDoencas());
         return "ocorrencia/lista";
     }
 

@@ -17,6 +17,8 @@ public class Doenca {
     private String nome;
 
     private double taxaReincidencia;
+
+    @Enumerated(EnumType.STRING)
     private Gravidade gravidade;
 
     @OneToMany(mappedBy = "doenca")
