@@ -27,7 +27,7 @@ public class PacienteService {
         return pacienteRepository.findAll(pageable).map(this::convertToDTO);
     }
 
-    public List<PacienteDTO> listarPacientesList() {
+    public List<PacienteDTO> listarPacientes() {
         return pacienteRepository.findAll().stream()
                 .map(this::convertToDTO)
                 .toList();

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>Listagem de Ocorrências - ON-Data</title>
+</head>
+<body>
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Ocorrências</h2>
+        <a href="/ocorrencias/novo" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Nova Ocorrência</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Data</th>
+                        <th>Paciente</th>
+                        <th>Dentista</th>
+                        <th>Doença</th>
+                        <th>Valor</th>
+                        <th>Duração</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${ocorrencias.empty}">
+                        <td colspan="9" class="text-center">Nenhuma ocorrência registrada</td>
+                    </tr>
+                    <tr th:each="ocorrencia : ${ocorrencias}" th:class="${ocorrencia.aprovada ? 'table-success' : ''}">
+                        <td th:text="${ocorrencia.codigoOcorrencia}">OC-001</td>
+                        <td th:text="${#temporals.format(ocorrencia.data, 'dd/MM/yyyy HH:mm')}">01/01/2025 10:00</td>
+                        <!-- Map pacienteId to paciente.nome -->
+                        <td>
+                                    <span th:each="paciente : ${pacientes}"
+                                          th:if="${paciente.id == ocorrencia.pacienteId}"
+                                          th:text="${paciente.nome}">Nome do Paciente</span>
+                        </td>
+                        <!-- Map dentistaId to dentista.nome -->
+                        <td>
+                                    <span th:each="dentista : ${dentistas}"
+                                          th:if="${dentista.id == ocorrencia.dentistaId}"
+                                          th:text="${dentista.nome}">Nome do Dentista</span>
+                        </td>
+                        <!-- Map doencaId to doenca.nome -->
+                        <td>
+                                    <span th:each="doenca : ${doencas}"
+                                          th:if="${doenca.id == ocorrencia.doencaId}"
+                                          th:text="${doenca.nome}">Nome da Doença</span>
+                        </td>
+                        <td th:text="${'R$ ' + #numbers.formatDecimal(ocorrencia.valor, 1, 'POINT', 2, 'COMMA')}">R$ 100,00</td>
+                        <td th:text="${ocorrencia.duracaoHoras + ' h'}">2.0 h</td>
+                        <td>
+                            <span th:if="${ocorrencia.aprovada}" class="badge bg-success">Aprovada</span>
+                            <span th:unless="${ocorrencia.aprovada}" class="badge bg-warning">Pendente</span>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a th:if="${!ocorrencia.aprovada}" th:href="@{/ocorrencias/aprovar/{id}(id=${ocorrencia.id})}"
+                                   class="btn btn-sm btn-success" title="Aprovar">
+                                    <i class="bi bi-check-circle"></i>
+                                </a>
+                                <a th:href="@{/ocorrencias/editar/{id}(id=${ocorrencia.id})}"
+                                   class="btn btn-sm btn-warning" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a th:href="@{/ocorrencias/excluir/{id}(id=${ocorrencia.id})}"
+                                   class="btn btn-sm btn-danger" title="Excluir"
+                                   onclick="return confirm('Tem certeza que deseja excluir esta ocorrência?')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

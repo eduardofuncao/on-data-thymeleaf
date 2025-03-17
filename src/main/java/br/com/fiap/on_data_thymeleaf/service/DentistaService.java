@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,6 +47,12 @@ public class DentistaService {
 
     public Page<DentistaDTO> listarDentistas(Pageable pageable) {
         return dentistaRepository.findAll(pageable).map(this::convertToDTO);
+    }
+
+    public List<DentistaDTO> listarDentistas() {
+        return dentistaRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .toList();
     }
 
     public DentistaDTO buscarDentistaPorId(Long id) {

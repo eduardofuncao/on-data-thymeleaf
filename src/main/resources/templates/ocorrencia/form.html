@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>Cadastro de Ocorrência - ON-Data</title>
+</head>
+<body>
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 th:text="${ocorrenciaDTO.id != null ? 'Editar Ocorrência' : 'Nova Ocorrência'}">Cadastro de Ocorrência</h2>
+        <a href="/ocorrencias" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form th:action="@{/ocorrencias}" th:object="${ocorrenciaDTO}" method="post">
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="codigoOcorrencia" class="form-label">Código da Ocorrência</label>
+                        <input type="text" class="form-control" id="codigoOcorrencia" th:field="*{codigoOcorrencia}" required>
+                        <div class="text-danger" th:if="${#fields.hasErrors('codigoOcorrencia')}" th:errors="*{codigoOcorrencia}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="data" class="form-label">Data e Hora</label>
+                        <input type="datetime-local" class="form-control" id="data" th:field="*{data}" required>
+                        <div class="text-danger" th:if="${#fields.hasErrors('data')}" th:errors="*{data}"></div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="valor" class="form-label">Valor (R$)</label>
+                        <input type="number" step="0.01" class="form-control" id="valor" th:field="*{valor}" required>
+                        <div class="text-danger" th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="duracaoHoras" class="form-label">Duração (horas)</label>
+                        <input type="number" step="0.5" class="form-control" id="duracaoHoras" th:field="*{duracaoHoras}" required>
+                        <div class="text-danger" th:if="${#fields.hasErrors('duracaoHoras')}" th:errors="*{duracaoHoras}"></div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="pacienteId" class="form-label">Paciente</label>
+                        <select class="form-select" id="pacienteId" th:field="*{pacienteId}" required>
+                            <option value="">Selecione um paciente</option>
+                            <option th:each="paciente : ${pacientes}"
+                                    th:value="${paciente.id}"
+                                    th:text="${paciente.nome}">Nome do Paciente</option>
+                        </select>
+                        <div class="text-danger" th:if="${#fields.hasErrors('pacienteId')}" th:errors="*{pacienteId}"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="dentistaId" class="form-label">Dentista</label>
+                        <select class="form-select" id="dentistaId" th:field="*{dentistaId}" required>
+                            <option value="">Selecione um dentista</option>
+                            <option th:each="dentista : ${dentistas}"
+                                    th:value="${dentista.id}"
+                                    th:text="${dentista.nome}">Nome do Dentista</option>
+                        </select>
+                        <div class="text-danger" th:if="${#fields.hasErrors('dentistaId')}" th:errors="*{dentistaId}"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="doencaId" class="form-label">Doença</label>
+                        <select class="form-select" id="doencaId" th:field="*{doencaId}" required>
+                            <option value="">Selecione uma doença</option>
+                            <option th:each="doenca : ${doencas}"
+                                    th:value="${doenca.id}"
+                                    th:text="${doenca.nome}">Nome da Doença</option>
+                        </select>
+                        <div class="text-danger" th:if="${#fields.hasErrors('doencaId')}" th:errors="*{doencaId}"></div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="aprovada" class="form-label">Aprovada</label>
+                        <select class="form-select" id="aprovada" th:field="*{aprovada}" required>
+                            <option value="true">Sim</option>
+                            <option value="false">Não</option>
+                        </select>
+                        <div class="text-danger" th:if="${#fields.hasErrors('aprovada')}" th:errors="*{aprovada}"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>

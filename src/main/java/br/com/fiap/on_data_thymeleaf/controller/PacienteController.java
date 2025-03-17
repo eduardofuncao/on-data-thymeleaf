@@ -26,7 +26,7 @@ public class PacienteController {
 
     @GetMapping
     public String listarPacientes(Model model) {
-        model.addAttribute("pacientes", pacienteService.listarPacientesList());
+        model.addAttribute("pacientes", pacienteService.listarPacientes());
         return "paciente/lista";
     }
 
