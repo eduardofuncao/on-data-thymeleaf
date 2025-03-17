@@ -13,8 +13,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/ocorrencias")
-public class OcorrenciaController {
+@RequestMapping("api/ocorrencias")
+public class OcorrenciaAPIController {
 
     @Autowired
     private OcorrenciaService ocorrenciaService;
@@ -23,12 +23,12 @@ public class OcorrenciaController {
     ResponseEntity<OcorrenciaDTO> criarOcorrencia(@RequestBody OcorrenciaDTO ocorrenciaDTO){
         OcorrenciaDTO createdOcorrencia = ocorrenciaService.criarOcorrencia((ocorrenciaDTO));
 
-        createdOcorrencia.add(linkTo(methodOn(OcorrenciaController.class).listarOcorrencias()).withRel("ocorrencias"));
-        createdOcorrencia.add(linkTo(methodOn(OcorrenciaController.class).listarOcorrenciasReprovadas()).withRel("reprovadas"));
-        createdOcorrencia.add(linkTo(methodOn(OcorrenciaController.class).aprovarOcorrencia(createdOcorrencia.getId())).withRel("aprovar"));
-        createdOcorrencia.add(linkTo(methodOn(OcorrenciaController.class).deletarOcorrencia(createdOcorrencia.getId())).withRel("deletar"));
+        createdOcorrencia.add(linkTo(methodOn(OcorrenciaAPIController.class).listarOcorrencias()).withRel("ocorrencias"));
+        createdOcorrencia.add(linkTo(methodOn(OcorrenciaAPIController.class).listarOcorrenciasReprovadas()).withRel("reprovadas"));
+        createdOcorrencia.add(linkTo(methodOn(OcorrenciaAPIController.class).aprovarOcorrencia(createdOcorrencia.getId())).withRel("aprovar"));
+        createdOcorrencia.add(linkTo(methodOn(OcorrenciaAPIController.class).deletarOcorrencia(createdOcorrencia.getId())).withRel("deletar"));
 
-        createdOcorrencia.add(linkTo(methodOn(PacienteController.class).buscarPacientePorId(createdOcorrencia.getPacienteId())).withRel("paciente"));
+        createdOcorrencia.add(linkTo(methodOn(PacienteAPIController.class).buscarPacientePorId(createdOcorrencia.getPacienteId())).withRel("paciente"));
 
         return ResponseEntity.ok(createdOcorrencia);
     }
@@ -39,7 +39,7 @@ public class OcorrenciaController {
 
         CollectionModel<OcorrenciaDTO> collectionModel = CollectionModel.of(ocorrencias);
 
-        collectionModel.add(linkTo(methodOn(OcorrenciaController.class).listarOcorrenciasAprovadas()).withRel("aprovadas"));
+        collectionModel.add(linkTo(methodOn(OcorrenciaAPIController.class).listarOcorrenciasAprovadas()).withRel("aprovadas"));
         return ResponseEntity.ok(collectionModel);
     }
 
@@ -70,7 +70,7 @@ public class OcorrenciaController {
     @PostMapping("/aprovar/{id}")
     public ResponseEntity<OcorrenciaDTO> aprovarOcorrencia(@PathVariable Long id){
         OcorrenciaDTO ocorrenciaAprovada = ocorrenciaService.aprovarOcorrencia(id);
-        ocorrenciaAprovada.add(linkTo(methodOn(OcorrenciaController.class).listarOcorrenciasAprovadas()).withRel("aprovadas"));
+        ocorrenciaAprovada.add(linkTo(methodOn(OcorrenciaAPIController.class).listarOcorrenciasAprovadas()).withRel("aprovadas"));
         return ResponseEntity.ok(ocorrenciaAprovada);
     }
 
@@ -84,7 +84,7 @@ public class OcorrenciaController {
         List<OcorrenciaDTO> ocorrenciasDTO = ocorrenciaService.listarOcorrenciasReprovadas();
 
         ocorrenciasDTO.forEach(ocorrenciaDTO -> {
-            ocorrenciaDTO.add(linkTo(methodOn(OcorrenciaController.class).aprovarOcorrencia(ocorrenciaDTO.getId())).withRel("aprovar"));
+            ocorrenciaDTO.add(linkTo(methodOn(OcorrenciaAPIController.class).aprovarOcorrencia(ocorrenciaDTO.getId())).withRel("aprovar"));
         });
 
         return ResponseEntity.ok(ocorrenciasDTO);

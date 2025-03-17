@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/doencas")
-public class DoencaController {
+@RequestMapping("api/doencas")
+public class DoencaAPIController {
     @Autowired
     private DoencaService doencaService;
     @Autowired

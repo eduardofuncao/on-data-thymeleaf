@@ -1,4 +1,4 @@
-package br.com.fiap.on_data_thymeleaf.controller.api;
+package br.com.fiap.on_data_thymeleaf.controller;
 
 import br.com.fiap.on_data_thymeleaf.controller.dto.ErroDetalhesDTO;
 import br.com.fiap.on_data_thymeleaf.exception.DataFuturaException;

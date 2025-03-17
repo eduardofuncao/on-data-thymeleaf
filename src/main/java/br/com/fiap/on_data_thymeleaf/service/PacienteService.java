@@ -27,6 +27,12 @@ public class PacienteService {
         return pacienteRepository.findAll(pageable).map(this::convertToDTO);
     }
 
+    public List<PacienteDTO> listarPacientesList() {
+        return pacienteRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .toList();
+    }
+
     public PacienteDTO buscarPacientePorId(Long id) {
         Paciente foundPaciente = pacienteRepository.findById(id)
                 .orElseThrow(() -> new NaoEncontradoException("Paciente não encontrado"));

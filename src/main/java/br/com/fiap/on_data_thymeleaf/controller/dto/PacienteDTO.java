@@ -5,8 +5,6 @@ import br.com.fiap.on_data_thymeleaf.entity.Genero;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
-import java.util.List;
-
 public class PacienteDTO {
     private Long id;
 
