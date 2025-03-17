@@ -1,3 +1,9 @@
+DELETE FROM Ocorrencia;
+DELETE FROM Paciente;
+DELETE FROM Doenca;
+DELETE FROM Dentista;
+DELETE FROM Clinica;
+
 -- Insert Clinicas
 INSERT INTO Clinica (nome, endereco, cidade, custo_medio_consulta) VALUES ('Clinica Sorriso Feliz', 'Rua das Flores, 123', 'São Paulo', 150.00);
 INSERT INTO Clinica (nome, endereco, cidade, custo_medio_consulta) VALUES ('Clinica Dental Care', 'Avenida Brasil, 456', 'Rio de Janeiro', 200.00);
