@@ -1,0 +1,13 @@
+:root {
+    --bs-primary: #9575CD;
+    --bs-primary-rgb: 149, 117, 205;
+}
+
+.bg-primary {
+    background-color: var(--bs-primary) !important;
+}
+
+.btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}

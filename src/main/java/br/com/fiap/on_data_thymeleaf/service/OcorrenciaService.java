@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -110,6 +111,16 @@ public class OcorrenciaService {
         }
         foundOcorrencia.setAprovado(true);
         return convertToDTO(ocorrenciaRepository.save(foundOcorrencia));
+    }
+
+    public Map<Integer, Double> mapearValorPorMes() {
+        List<Ocorrencia> ocorrencias = ocorrenciaRepository.findAll();
+        return ocorrencias.stream()
+                .collect(Collectors.groupingBy(
+                        ocorrencia -> ocorrencia.getData().getMonthValue(),
+                        Collectors.summingDouble(ocorrencia ->
+                                ocorrencia.getData().getYear()==LocalDateTime.now().getYear()?ocorrencia.getValor():0))
+                );
     }
 
     private OcorrenciaDTO convertToDTO(Ocorrencia ocorrencia) {

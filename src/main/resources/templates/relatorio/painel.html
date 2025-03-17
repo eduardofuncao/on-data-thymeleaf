@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>Relatórios e Métricas - ON-Data</title>
+</head>
+<body>
+<section>
+    <h2 class="mb-4">Dashboard de Ocorrências</h2>
+
+    <!-- Cards de resumo -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Ocorrências</h5>
+                    <p class="display-4" th:text="${totalOcorrencias}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Ocorrências Aprovadas</h5>
+                    <p class="display-4" th:text="${totalAprovadas}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card bg-warning text-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Ocorrências Pendentes</h5>
+                    <p class="display-4" th:text="${totalReprovadas}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Valor Total</h5>
+                    <p class="display-4" th:text="${'R$ ' + #numbers.formatDecimal(valorTotal, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Distribuição de Status</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Valores por Mês</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="valoresChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estatísticas detalhadas -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Estatísticas de Valor</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Valor Total:</th>
+                            <td th:text="${'R$ ' + #numbers.formatDecimal(valorTotal, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                        </tr>
+                        <tr>
+                            <th>Valor Médio:</th>
+                            <td th:text="${'R$ ' + #numbers.formatDecimal(valorMedio, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                        </tr>
+                        <tr>
+                            <th>Valor Máximo:</th>
+                            <td th:text="${'R$ ' + #numbers.formatDecimal(valorMaximo, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                        </tr>
+                        <tr>
+                            <th>Valor Mínimo:</th>
+                            <td th:text="${'R$ ' + #numbers.formatDecimal(valorMinimo, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Estatísticas de Duração</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Duração Total:</th>
+                            <td th:text="${#numbers.formatDecimal(duracaoTotal, 1, 'POINT', 1, 'COMMA') + ' horas'}">0,0 horas</td>
+                        </tr>
+                        <tr>
+                            <th>Duração Média:</th>
+                            <td th:text="${#numbers.formatDecimal(duracaoMedia, 1, 'POINT', 1, 'COMMA') + ' horas'}">0,0 horas</td>
+                        </tr>
+                        <tr>
+                            <th>Duração Máxima:</th>
+                            <td th:text="${#numbers.formatDecimal(duracaoMaxima, 1, 'POINT', 1, 'COMMA') + ' horas'}">0,0 horas</td>
+                        </tr>
+                        <tr>
+                            <th>Duração Mínima:</th>
+                            <td th:text="${#numbers.formatDecimal(duracaoMinima, 1, 'POINT', 1, 'COMMA') + ' horas'}">0,0 horas</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript para gráficos -->
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            // Access Thymeleaf variables using /*[[...]]*/
+            const totalAprovadas = /*[[${totalAprovadas}]]*/ 0;
+            const totalReprovadas = /*[[${totalReprovadas}]]*/ 0;
+            const valorTotal = /*[[${valorTotal}]]*/ 0;
+            const valorPorMes = /*[[${valorPorMes}]]*/ 0
+
+            // Dados para o gráfico de status
+            const statusChart = new Chart(
+                document.getElementById('statusChart'),
+                {
+                    type: 'pie',
+                    data: {
+                        labels: ['Aprovadas', 'Pendentes'],
+                        datasets: [{
+                            data: [totalAprovadas, totalReprovadas],
+                            backgroundColor: ['#28a745', '#ffc107']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                }
+            );
+
+            // Dados para o gráfico de valores por mês (simulado)
+            const valoresChart = new Chart(
+                document.getElementById('valoresChart'),
+                {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                        datasets: [{
+                            label: 'Valor total por mês',
+                            data: [
+                                valorPorMes[1],
+                                valorPorMes[2],
+                                valorPorMes[3],
+                                valorPorMes[4],
+                                valorPorMes[5],
+                                valorPorMes[6],
+                                valorPorMes[7],
+                                valorPorMes[8],
+                                valorPorMes[9],
+                                valorPorMes[10],
+                                valorPorMes[11],
+                                valorPorMes[12],
+                            ],
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgb(54, 162, 235)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                }
+            );
+        });
+    </script>
+
+</section>
+</body>
+</html>
