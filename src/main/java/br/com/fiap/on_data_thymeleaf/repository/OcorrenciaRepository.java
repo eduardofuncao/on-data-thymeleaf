@@ -10,4 +10,6 @@ public interface OcorrenciaRepository extends JpaRepository<Ocorrencia, Long> {
     List<Ocorrencia> findByAprovadoTrue();
 
     List<Ocorrencia> findByAprovadoFalse();
+
+    Boolean existsByPacienteId(Long pacienteId);
 }

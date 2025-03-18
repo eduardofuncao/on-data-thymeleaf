@@ -3,6 +3,8 @@ package br.com.fiap.on_data_thymeleaf.service;
 import br.com.fiap.on_data_thymeleaf.controller.dto.PacienteDTO;
 import br.com.fiap.on_data_thymeleaf.entity.Paciente;
 import br.com.fiap.on_data_thymeleaf.exception.NaoEncontradoException;
+import br.com.fiap.on_data_thymeleaf.exception.PacienteComOcorrenciaException;
+import br.com.fiap.on_data_thymeleaf.repository.OcorrenciaRepository;
 import br.com.fiap.on_data_thymeleaf.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,8 +16,13 @@ import java.util.List;
 @Service
 public class PacienteService {
 
-    @Autowired
-    private PacienteRepository pacienteRepository;
+    private final PacienteRepository pacienteRepository;
+    private final OcorrenciaRepository ocorrenciaRepository;
+
+    public PacienteService(PacienteRepository pacienteRepository, OcorrenciaRepository ocorrenciaRepository) {
+        this.pacienteRepository = pacienteRepository;
+        this.ocorrenciaRepository = ocorrenciaRepository;
+    }
 
     public PacienteDTO criarPaciente(PacienteDTO pacienteDTO) {
         Paciente savedPaciente = pacienteRepository.save(convertToEntity(pacienteDTO));
@@ -39,7 +46,12 @@ public class PacienteService {
         return convertToDTO(foundPaciente);
     }
 
-    public void deletarPaciente(Long id) {pacienteRepository.deleteById(id);}
+    public void deletarPaciente(Long id) {
+        if (ocorrenciaRepository.existsByPacienteId(id)) {
+            throw new PacienteComOcorrenciaException("Paciente com ocorrência associada não pode ser excluído");
+        }
+        pacienteRepository.deleteById(id);
+    }
 
     private PacienteDTO convertToDTO(Paciente paciente) {
         PacienteDTO pacienteDTO = new PacienteDTO();

@@ -1,10 +1,7 @@
 package br.com.fiap.on_data_thymeleaf.controller;
 
 import br.com.fiap.on_data_thymeleaf.controller.dto.ErroDetalhesDTO;
-import br.com.fiap.on_data_thymeleaf.exception.DataFuturaException;
-import br.com.fiap.on_data_thymeleaf.exception.DentistaDuplicadoException;
-import br.com.fiap.on_data_thymeleaf.exception.NaoEncontradoException;
-import br.com.fiap.on_data_thymeleaf.exception.OcorrenciaJaAprovadaException;
+import br.com.fiap.on_data_thymeleaf.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +53,16 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getRequestURI(),
                 "Ocorrência já aprovada"
+        );
+    }
+
+    @ExceptionHandler(PacienteComOcorrenciaException.class)
+    public ModelAndView handlePacienteComOcorrenciaException(PacienteComOcorrenciaException ex, HttpServletRequest request) {
+        return buildErrorModelAndView(
+                HttpStatus.CONFLICT,
+                ex.getMessage(),
+                request.getRequestURI(),
+                "Paciente com ocorrências associadas não pode ser excluído"
         );
     }
 
