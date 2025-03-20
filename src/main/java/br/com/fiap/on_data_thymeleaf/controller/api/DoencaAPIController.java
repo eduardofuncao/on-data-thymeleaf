@@ -1,6 +1,7 @@
 package br.com.fiap.on_data_thymeleaf.controller.api;
 
 import br.com.fiap.on_data_thymeleaf.controller.dto.DoencaDTO;
+import br.com.fiap.on_data_thymeleaf.controller.dto.DoencaOcorrenciaDTO;
 import br.com.fiap.on_data_thymeleaf.repository.DoencaRepository;
 import br.com.fiap.on_data_thymeleaf.service.DoencaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/doencas")
@@ -45,5 +48,10 @@ public class DoencaAPIController {
     public ResponseEntity<Void> deletarDoenca(@PathVariable Long id){
         doencaService.deletarDoenca(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/agrupar")
+    public ResponseEntity<List<DoencaOcorrenciaDTO>> AgruparComValores() {
+        return ResponseEntity.ok(doencaService.agruparOcorrenciasPorDoenca());
     }
 }

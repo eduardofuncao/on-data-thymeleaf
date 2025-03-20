@@ -45,3 +45,6 @@ INSERT INTO Ocorrencia (data_ocorrencia, codigo_ocorrencia, valor, duracao_horas
 INSERT INTO Ocorrencia (data_ocorrencia, codigo_ocorrencia, valor, duracao_horas, aprovado, paciente_id, doenca_id, dentista_id) VALUES (TO_DATE('2025-10-05 15:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'OC010', 500.00, 2, 1, 5, 1, 2);
 INSERT INTO Ocorrencia (data_ocorrencia, codigo_ocorrencia, valor, duracao_horas, aprovado, paciente_id, doenca_id, dentista_id) VALUES (TO_DATE('2025-11-05 16:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'OC011', 150.00, 4, 0, 2, 1, 4);
 INSERT INTO Ocorrencia (data_ocorrencia, codigo_ocorrencia, valor, duracao_horas, aprovado, paciente_id, doenca_id, dentista_id) VALUES (TO_DATE('2025-12-05 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'OC012', 100.00, 5, 1, 4, 3, 5);
+-- INSERT INTO Ocorrencia (data_ocorrencia, codigo_ocorrencia, valor, duracao_horas, aprovado, paciente_id, doenca_id, dentista_id) VALUES('2025-03-18', 12345, 250.75, 2.5, 1, 2, 5, 1);
+-- INSERT INTO Ocorrencia (data_ocorrencia, codigo_ocorrencia, valor, duracao_horas, aprovado, paciente_id, doenca_id, dentista_id) VALUES('2025-02-01', 12345, 500.75, 1.0, 0, 3, 1, 2);
+-- INSERT INTO Ocorrencia (data_ocorrencia, codigo_ocorrencia, valor, duracao_horas, aprovado, paciente_id, doenca_id, dentista_id) VALUES('2025-01-01', 12345, 750.75, 2.0, 1, 4, 2, 3);
