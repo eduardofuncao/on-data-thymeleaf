@@ -4,6 +4,7 @@ import br.com.fiap.on_data_thymeleaf.controller.dto.OcorrenciaDTO;
 import br.com.fiap.on_data_thymeleaf.service.DentistaService;
 import br.com.fiap.on_data_thymeleaf.service.DoencaService;
 import br.com.fiap.on_data_thymeleaf.service.OcorrenciaService;
+import br.com.fiap.on_data_thymeleaf.service.PacienteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +22,13 @@ public class RelatorioController {
     private final OcorrenciaService ocorrenciaService;
     private final DentistaService dentistaService;
     private final DoencaService doencaService;
+    private final PacienteService pacienteService;
 
-    public RelatorioController(OcorrenciaService ocorrenciaService, DentistaService dentistaService, DoencaService doencaService) {
+    public RelatorioController(OcorrenciaService ocorrenciaService, DentistaService dentistaService, DoencaService doencaService, PacienteService pacienteService) {
         this.ocorrenciaService = ocorrenciaService;
         this.dentistaService = dentistaService;
         this.doencaService = doencaService;
+        this.pacienteService = pacienteService;
     }
 
     @GetMapping
@@ -57,6 +60,9 @@ public class RelatorioController {
         model.addAttribute("duracaoMedia", duracaoStats.getAverage());
         model.addAttribute("duracaoMaxima", duracaoStats.getMax());
         model.addAttribute("duracaoMinima", duracaoStats.getMin());
+
+        model.addAttribute("dadosPorPaciente", pacienteService.listarGastosPacientes());
+        model.addAttribute("dadosPorDoenca", doencaService.agruparOcorrenciasPorDoenca());
 
         return "relatorio/painel";
     }

@@ -1,16 +1,24 @@
 package br.com.fiap.on_data_thymeleaf.service;
 
 import br.com.fiap.on_data_thymeleaf.controller.dto.PacienteDTO;
+import br.com.fiap.on_data_thymeleaf.controller.dto.PacienteGastoDTO;
 import br.com.fiap.on_data_thymeleaf.entity.Paciente;
 import br.com.fiap.on_data_thymeleaf.exception.NaoEncontradoException;
 import br.com.fiap.on_data_thymeleaf.exception.PacienteComOcorrenciaException;
 import br.com.fiap.on_data_thymeleaf.repository.OcorrenciaRepository;
 import br.com.fiap.on_data_thymeleaf.repository.PacienteRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.StoredProcedureQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +26,9 @@ public class PacienteService {
 
     private final PacienteRepository pacienteRepository;
     private final OcorrenciaRepository ocorrenciaRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public PacienteService(PacienteRepository pacienteRepository, OcorrenciaRepository ocorrenciaRepository) {
         this.pacienteRepository = pacienteRepository;
@@ -51,6 +62,30 @@ public class PacienteService {
             throw new PacienteComOcorrenciaException("Paciente com ocorrência associada não pode ser excluído");
         }
         pacienteRepository.deleteById(id);
+    }
+
+    // chama procedure do banco de dados oracle -> requisito entrega DB
+    public List<PacienteGastoDTO> listarGastosPacientes() {
+        StoredProcedureQuery query = entityManager
+                .createStoredProcedureQuery("pkg_ocorrencias_pacientes.listar_gastos_pacientes");
+
+        query.registerStoredProcedureParameter(1, void.class, ParameterMode.REF_CURSOR);
+        query.execute();
+
+        @SuppressWarnings("unchecked")
+        List<Object[]> results = (List<Object[]>) query.getResultList();
+
+        List<PacienteGastoDTO> dtoList = new ArrayList<>();
+        for (Object[] result : results) {
+
+            dtoList.add(new PacienteGastoDTO(
+                    ((Number) result[0]).longValue(),
+                    (String) result[1],
+                    ((Number) result[2]).longValue(),
+                    (BigDecimal) result[3]
+            ));
+        }
+        return dtoList;
     }
 
     private PacienteDTO convertToDTO(Paciente paciente) {

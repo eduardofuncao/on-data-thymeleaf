@@ -10,7 +10,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.StoredProcedureQuery;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,10 +52,11 @@ public class DoencaService {
 
     public void deletarDoenca(Long id) {doencaRepository.deleteById(id);}
 
+    // chama procedure do banco de dados oracle -> requisito entrega DB
     public List<DoencaOcorrenciaDTO> agruparOcorrenciasPorDoenca() {
         StoredProcedureQuery query = entityManager
                 .createStoredProcedureQuery("pkg_doenca_ocorrencias.listar_doencas_ocorrencias_custo");
-        query.registerStoredProcedureParameter(1, void.class, ParameterMode.REF_CURSOR);        query.execute();
+        query.registerStoredProcedureParameter(1, void.class, ParameterMode.REF_CURSOR);
         query.execute();
 
         @SuppressWarnings("unchecked")

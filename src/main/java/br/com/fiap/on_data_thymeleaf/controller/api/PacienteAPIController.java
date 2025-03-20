@@ -1,6 +1,7 @@
 package br.com.fiap.on_data_thymeleaf.controller.api;
 
 import br.com.fiap.on_data_thymeleaf.controller.dto.PacienteDTO;
+import br.com.fiap.on_data_thymeleaf.controller.dto.PacienteGastoDTO;
 import br.com.fiap.on_data_thymeleaf.repository.PacienteRepository;
 import br.com.fiap.on_data_thymeleaf.service.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/pacientes")
@@ -56,5 +59,10 @@ public class PacienteAPIController {
     public ResponseEntity<Void> deletarPaciente(@PathVariable Long id){
         pacienteService.deletarPaciente(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/gastos")
+    public ResponseEntity<List<PacienteGastoDTO>> listarGastos() {
+        return ResponseEntity.ok(pacienteService.listarGastosPacientes());
     }
 }
