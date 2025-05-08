@@ -1,15 +1,12 @@
 package br.com.fiap.on_data_thymeleaf.controller;
 
-import br.com.fiap.on_data_thymeleaf.controller.dto.ErroDetalhesDTO;
 import br.com.fiap.on_data_thymeleaf.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.time.LocalDateTime;
 
@@ -65,6 +62,16 @@ public class GlobalExceptionHandler {
                 "Paciente com ocorrências associadas não pode ser excluído"
         );
     }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ModelAndView handleAccessDeniedException(AccessDeniedException ex, HttpServletRequest request) {
+    return buildErrorModelAndView(
+            HttpStatus.FORBIDDEN,
+            "Você não tem permissão para acessar este recurso",
+            request.getRequestURI(),
+            "Acesso Negado"
+    );
+}
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleGenericException(Exception ex, HttpServletRequest request) {

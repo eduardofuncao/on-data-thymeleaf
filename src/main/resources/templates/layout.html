@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)" th:lang="${#locale.language + '_' + #locale.country}">
+<html xmlns:th="http://www.thymeleaf.org"  th:fragment="layout(title, content)" th:lang="${#locale.language + '_' + #locale.country}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,15 +43,27 @@
                     <a class="nav-link" href="/relatorios"><i class="bi bi-bar-chart"></i> <span th:text="#{module.reports.title}">Reports</span></a>
                 </li>
             </ul>
-            <!-- Language Switcher -->
-            <div class="dropdown">
-                <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-globe"></i> <span th:text="#{language.current}">Language</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                    <li><a class="dropdown-item" th:href="@{''(lang=en_US)}" th:text="#{lang.en_US}">English</a></li>
-                    <li><a class="dropdown-item" th:href="@{''(lang=pt_BR)}" th:text="#{lang.pt_BR}">Portuguese</a></li>
-                </ul>
+
+            <div class="d-flex align-items-center">
+
+                <!-- Language Switcher -->
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-globe"></i> <span th:text="#{language.current}">Language</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                        <li><a class="dropdown-item" th:href="@{''(lang=en_US)}" th:text="#{lang.en_US}">English</a></li>
+                        <li><a class="dropdown-item" th:href="@{''(lang=pt_BR)}" th:text="#{lang.pt_BR}">Portuguese</a></li>
+                    </ul>
+                </div>
+
+                <form th:action="@{/logout}" method="post" class="me-3">
+                    <button type="submit" class="btn btn-outline-light">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span th:text="#{nav.logout}">Logout</span>
+                    </button>
+                </form>
+
             </div>
         </div>
     </div>
