@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::section})}" th:lang="${#locale.language + '_' + #locale.country}">
 <head>
-    <title>Relatórios e Métricas - ON-Data</title>
+    <title th:text="#{reports.title}">Reports and Metrics - ON-Data</title>
 </head>
 <body>
 <section>
-    <h2 class="mb-4">Dashboard de Ocorrências</h2>
+    <h2 class="mb-4" th:text="#{reports.dashboard.title}">Dashboard of Occurrences</h2>
 
     <div class="row mb-4">
         <div class="col-md-3">
             <div class="card bg-primary text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Total de Ocorrências</h5>
+                    <h5 class="card-title" th:text="#{reports.total.occurrences}">Total Occurrences</h5>
                     <p class="display-4" th:text="${totalOcorrencias}">0</p>
                 </div>
             </div>
@@ -19,7 +19,7 @@
         <div class="col-md-2">
             <div class="card bg-success text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Ocorrências Aprovadas</h5>
+                    <h5 class="card-title" th:text="#{reports.approved.occurrences}">Approved Occurrences</h5>
                     <p class="display-4" th:text="${totalAprovadas}">0</p>
                 </div>
             </div>
@@ -27,7 +27,7 @@
         <div class="col-md-2">
             <div class="card bg-warning text-dark">
                 <div class="card-body">
-                    <h5 class="card-title">Ocorrências Pendentes</h5>
+                    <h5 class="card-title" th:text="#{reports.pending.occurrences}">Pending Occurrences</h5>
                     <p class="display-4" th:text="${totalReprovadas}">0</p>
                 </div>
             </div>
@@ -35,8 +35,8 @@
         <div class="col-md-5">
             <div class="card bg-info text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Gasto Total</h5>
-                    <p class="display-4" th:text="${'R$ ' + #numbers.formatDecimal(valorTotal, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</p>
+                    <h5 class="card-title" th:text="#{reports.total.expense}">Total Expense</h5>
+                    <p class="display-4" th:text="${#messages.msg('reports.currency.format', #numbers.formatDecimal(valorTotal, 1, 'POINT', 2, 'COMMA'))}">R$ 0,00</p>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h5>Distribuição de Status</h5>
+                    <h5 th:text="#{reports.status.distribution}">Status Distribution</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="statusChart"></canvas>
@@ -56,7 +56,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h5>Gastos em Ocorrências por Mês</h5>
+                    <h5 th:text="#{reports.monthly.expenses}">Monthly Occurrence Expenses</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="valoresChart"></canvas>
@@ -69,26 +69,26 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h5>Estatísticas de Gasto</h5>
+                    <h5 th:text="#{reports.expense.statistics}">Expense Statistics</h5>
                 </div>
                 <div class="card-body">
                     <table class="table">
                         <tbody>
                         <tr>
-                            <th>Gasto Total:</th>
-                            <td th:text="${'R$ ' + #numbers.formatDecimal(valorTotal, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                            <th th:text="#{reports.total.expense.label}">Total Expense:</th>
+                            <td th:text="${#messages.msg('reports.currency.format', #numbers.formatDecimal(valorTotal, 1, 'POINT', 2, 'COMMA'))}">R$ 0,00</td>
                         </tr>
                         <tr>
-                            <th>Gasto Médio:</th>
-                            <td th:text="${'R$ ' + #numbers.formatDecimal(valorMedio, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                            <th th:text="#{reports.average.expense}">Average Expense:</th>
+                            <td th:text="${#messages.msg('reports.currency.format', #numbers.formatDecimal(valorMedio, 1, 'POINT', 2, 'COMMA'))}">R$ 0,00</td>
                         </tr>
                         <tr>
-                            <th>Gasxto Máximo:</th>
-                            <td th:text="${'R$ ' + #numbers.formatDecimal(valorMaximo, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                            <th th:text="#{reports.maximum.expense}">Maximum Expense:</th>
+                            <td th:text="${#messages.msg('reports.currency.format', #numbers.formatDecimal(valorMaximo, 1, 'POINT', 2, 'COMMA'))}">R$ 0,00</td>
                         </tr>
                         <tr>
-                            <th>Gasto Mínimo:</th>
-                            <td th:text="${'R$ ' + #numbers.formatDecimal(valorMinimo, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                            <th th:text="#{reports.minimum.expense}">Minimum Expense:</th>
+                            <td th:text="${#messages.msg('reports.currency.format', #numbers.formatDecimal(valorMinimo, 1, 'POINT', 2, 'COMMA'))}">R$ 0,00</td>
                         </tr>
                         </tbody>
                     </table>
@@ -98,26 +98,26 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h5>Estatísticas de Duração</h5>
+                    <h5 th:text="#{reports.duration.statistics}">Duration Statistics</h5>
                 </div>
                 <div class="card-body">
                     <table class="table">
                         <tbody>
                         <tr>
-                            <th>Duração Total:</th>
-                            <td th:text="${#numbers.formatDecimal(duracaoTotal, 1, 'POINT', 1, 'COMMA') + ' horas'}">0,0 horas</td>
+                            <th th:text="#{reports.total.duration}">Total Duration:</th>
+                            <td th:text="${#messages.msg('reports.duration.format', #numbers.formatDecimal(duracaoTotal, 1, 'POINT', 1, 'COMMA'))}">0,0 hours</td>
                         </tr>
                         <tr>
-                            <th>Duração Média:</th>
-                            <td th:text="${#numbers.formatDecimal(duracaoMedia, 1, 'POINT', 1, 'COMMA') + ' horas'}">0,0 horas</td>
+                            <th th:text="#{reports.average.duration}">Average Duration:</th>
+                            <td th:text="${#messages.msg('reports.duration.format', #numbers.formatDecimal(duracaoMedia, 1, 'POINT', 1, 'COMMA'))}">0,0 hours</td>
                         </tr>
                         <tr>
-                            <th>Duração Máxima:</th>
-                            <td th:text="${#numbers.formatDecimal(duracaoMaxima, 1, 'POINT', 1, 'COMMA') + ' horas'}">0,0 horas</td>
+                            <th th:text="#{reports.maximum.duration}">Maximum Duration:</th>
+                            <td th:text="${#messages.msg('reports.duration.format', #numbers.formatDecimal(duracaoMaxima, 1, 'POINT', 1, 'COMMA'))}">0,0 hours</td>
                         </tr>
                         <tr>
-                            <th>Duração Mínima:</th>
-                            <td th:text="${#numbers.formatDecimal(duracaoMinima, 1, 'POINT', 1, 'COMMA') + ' horas'}">0,0 horas</td>
+                            <th th:text="#{reports.minimum.duration}">Minimum Duration:</th>
+                            <td th:text="${#messages.msg('reports.duration.format', #numbers.formatDecimal(duracaoMinima, 1, 'POINT', 1, 'COMMA'))}">0,0 hours</td>
                         </tr>
                         </tbody>
                     </table>
@@ -126,21 +126,40 @@
         </div>
     </div>
 
-    <!-- JavaScript para gráficos -->
+    <!-- JavaScript for charts -->
     <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
             const totalAprovadas = /*[[${totalAprovadas}]]*/ 0;
             const totalReprovadas = /*[[${totalReprovadas}]]*/ 0;
             const valorTotal = /*[[${valorTotal}]]*/ 0;
-            const valorPorMes = /*[[${valorPorMes}]]*/ 0
+            const valorPorMes = /*[[${valorPorMes}]]*/ 0;
 
-            // Dados para o gráfico de status
+            // Internationalized labels
+            const approvedLabel = /*[[#{occurrence.status.approved}]]*/ 'Approved';
+            const pendingLabel = /*[[#{occurrence.status.pending}]]*/ 'Pending';
+            const monthLabels = [
+                /*[[#{month.jan}]]*/ 'Jan',
+                /*[[#{month.feb}]]*/ 'Feb',
+                /*[[#{month.mar}]]*/ 'Mar',
+                /*[[#{month.apr}]]*/ 'Apr',
+                /*[[#{month.may}]]*/ 'May',
+                /*[[#{month.jun}]]*/ 'Jun',
+                /*[[#{month.jul}]]*/ 'Jul',
+                /*[[#{month.aug}]]*/ 'Aug',
+                /*[[#{month.sep}]]*/ 'Sep',
+                /*[[#{month.oct}]]*/ 'Oct',
+                /*[[#{month.nov}]]*/ 'Nov',
+                /*[[#{month.dec}]]*/ 'Dec'
+            ];
+            const monthlyTotalLabel = /*[[#{reports.monthly.total}]]*/ 'Total value per month';
+
+            // Chart data for status
             const statusChart = new Chart(
                 document.getElementById('statusChart'),
                 {
                     type: 'pie',
                     data: {
-                        labels: ['Aprovadas', 'Pendentes'],
+                        labels: [approvedLabel, pendingLabel],
                         datasets: [{
                             data: [totalAprovadas, totalReprovadas],
                             backgroundColor: ['#8C8FFF', '#ffc1FF']
@@ -157,15 +176,15 @@
                 }
             );
 
-            // Dados para o gráfico de valores por mês
+            // Chart data for monthly values
             const valoresChart = new Chart(
                 document.getElementById('valoresChart'),
                 {
                     type: 'bar',
                     data: {
-                        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                        labels: monthLabels,
                         datasets: [{
-                            label: 'Valor total por mês',
+                            label: monthlyTotalLabel,
                             data: [
                                 valorPorMes[1],
                                 valorPorMes[2],
@@ -200,29 +219,28 @@
 
     <div class="card mb-4">
         <div class="card-header">
-            <h5>Ranking de Gastos por Paciente</h5>
+            <h5 th:text="#{reports.patient.expense.ranking}">Patient Expense Ranking</h5>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Total de Ocorrências</th>
-                        <th>Gasto Total</th>
-
+                        <th th:text="#{common.id}">ID</th>
+                        <th th:text="#{patient.name}">Name</th>
+                        <th th:text="#{reports.total.occurrences.column}">Total Occurrences</th>
+                        <th th:text="#{reports.total.expense.column}">Total Expense</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:if="${dadosPorPaciente.empty}">
-                        <td colspan="9" class="text-center">Nenhuma Entrada Registrada</td>
+                        <td colspan="9" class="text-center" th:text="#{reports.no.entries}">No Entries Registered</td>
                     </tr>
                     <tr th:each="entrada : ${dadosPorPaciente}">
                         <td th:text="${entrada.getPacienteId()}">000</td>
-                        <td th:text="${entrada.getNomePaciente()}">Nome do paciente</td>
-                        <td th:text="${entrada.getTotalOcorrencias()}">Total de Ocorrências</td>
-                        <td th:text="${entrada.getTotalGasto()}">Total Gasto</td>
+                        <td th:text="${entrada.getNomePaciente()}">Patient name</td>
+                        <td th:text="${entrada.getTotalOcorrencias()}">Total Occurrences</td>
+                        <td th:text="${entrada.getTotalGasto()}">Total Expense</td>
                     </tr>
                     </tbody>
                 </table>
@@ -232,28 +250,28 @@
 
     <div class="card">
         <div class="card-header">
-            <h5>Enfermidades mais frequentes</h5>
+            <h5 th:text="#{reports.common.diseases}">Most Common Diseases</h5>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Enfermidade</th>
-                        <th>Total de Ocorrências</th>
-                        <th>Gasto Total</th>
+                        <th th:text="#{common.id}">ID</th>
+                        <th th:text="#{reports.disease}">Disease</th>
+                        <th th:text="#{reports.total.occurrences.column}">Total Occurrences</th>
+                        <th th:text="#{reports.total.expense.column}">Total Expense</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:if="${dadosPorDoenca.empty}">
-                        <td colspan="9" class="text-center">Nenhuma Entrada Registrada</td>
+                        <td colspan="9" class="text-center" th:text="#{reports.no.entries}">No Entries Registered</td>
                     </tr>
                     <tr th:each="entrada : ${dadosPorDoenca}">
                         <td th:text="${entrada.getIdDoenca()}">000</td>
-                        <td th:text="${entrada.getNomeDoenca()}">Nome da Enfermidade</td>
-                        <td th:text="${entrada.getTotalOcorrencias()}">Total de Ocorrências</td>
-                        <td th:text="${entrada.getTotalGasto()}">Total Gasto</td>
+                        <td th:text="${entrada.getNomeDoenca()}">Disease name</td>
+                        <td th:text="${entrada.getTotalOcorrencias()}">Total Occurrences</td>
+                        <td th:text="${entrada.getTotalGasto()}">Total Expense</td>
                     </tr>
                     </tbody>
                 </table>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)" lang="pt_BR">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)" th:lang="${#locale.language + '_' + #locale.country}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,50 +11,60 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
     <div class="container">
-        <a class="navbar-brand" href="/">ON-Data</a>
+        <a class="navbar-brand" href="/" th:text="#{app.title}">ON-Data</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/"><i class="bi bi-house"></i> Home</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-person"></i> Pacientes
+                        <i class="bi bi-person"></i> <span th:text="#{module.patients.title}">Patients</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/pacientes">Listar</a></li>
-                        <li><a class="dropdown-item" href="/pacientes/novo">Cadastrar</a></li>
+                        <li><a class="dropdown-item" href="/pacientes" th:text="#{nav.list}">List</a></li>
+                        <li><a class="dropdown-item" href="/pacientes/novo" th:text="#{nav.register}">Register</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-clipboard2-pulse"></i> Ocorrências
+                        <i class="bi bi-clipboard2-pulse"></i> <span th:text="#{module.occurrences.title}">Occurrences</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/ocorrencias">Listar</a></li>
-                        <li><a class="dropdown-item" href="/ocorrencias/novo">Cadastrar</a></li>
+                        <li><a class="dropdown-item" href="/ocorrencias" th:text="#{nav.list}">List</a></li>
+                        <li><a class="dropdown-item" href="/ocorrencias/novo" th:text="#{nav.register}">Register</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/relatorios"><i class="bi bi-bar-chart"></i> Relatórios</a>
+                    <a class="nav-link" href="/relatorios"><i class="bi bi-bar-chart"></i> <span th:text="#{module.reports.title}">Reports</span></a>
                 </li>
             </ul>
+            <!-- Language Switcher -->
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-globe"></i> <span th:text="#{language.current}">Language</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                    <li><a class="dropdown-item" th:href="@{''(lang=en_US)}" th:text="#{lang.en_US}">English</a></li>
+                    <li><a class="dropdown-item" th:href="@{''(lang=pt_BR)}" th:text="#{lang.pt_BR}">Portuguese</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
 
 <div class="container">
     <div th:replace="${content}">
-        <!-- Conteúdo -->
+        <!-- Content -->
     </div>
 </div>
 
 <footer class="bg-light text-center text-lg-start mt-5">
     <div class="text-center p-3">
-        © 2025 ON-Data
+        © 2025 <span th:text="#{app.title}">ON-Data</span>
     </div>
 </footer>
 

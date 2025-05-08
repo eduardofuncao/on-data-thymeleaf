@@ -1,37 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}"
+      th:lang="${#locale.language}">
 <head>
-    <title>Listagem de Pacientes - ON-Data</title>
+    <title th:text="#{patient.list.title}">Listagem de Pacientes - ON-Data</title>
 </head>
 <body>
 <section>
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Pacientes</h2>
-        <a href="/pacientes/novo" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Novo Paciente</a>
+        <h2 th:text="#{patient.list.heading}">Pacientes</h2>
+        <a href="/pacientes/novo" class="btn btn-primary"><i class="bi bi-plus-circle"></i> <span th:text="#{patient.new.button}">Novo Paciente</span></a>
     </div>
-
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Gênero</th>
-                        <th>Idade</th>
-                        <th>Endereço</th>
-                        <th>Cidade</th>
-                        <th>Fumante</th>
-                        <th>Renda</th>
-                        <th>Visitas por Ano</th>
-                        <th>Categoria</th>
-                        <th>Ações</th>
+                        <th th:text="#{common.id}">ID</th>
+                        <th th:text="#{patient.name}">Nome</th>
+                        <th th:text="#{patient.gender}">Gênero</th>
+                        <th th:text="#{patient.age}">Idade</th>
+                        <th th:text="#{patient.address}">Endereço</th>
+                        <th th:text="#{patient.city}">Cidade</th>
+                        <th th:text="#{patient.smoker}">Fumante</th>
+                        <th th:text="#{patient.income}">Renda</th>
+                        <th th:text="#{patient.visits}">Visitas por Ano</th>
+                        <th th:text="#{patient.category}">Categoria</th>
+                        <th th:text="#{common.actions}">Ações</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:if="${pacientes.empty}">
-                        <td colspan="11" class="text-center">Nenhum paciente cadastrado</td>
+                        <td colspan="11" class="text-center" th:text="#{patient.list.empty}">Nenhum paciente cadastrado</td>
                     </tr>
                     <tr th:each="paciente : ${pacientes}">
                         <td th:text="${paciente.id}">1</td>
@@ -40,18 +41,21 @@
                         <td th:text="${paciente.idade}">Idade</td>
                         <td th:text="${paciente.endereco}">Endereço</td>
                         <td th:text="${paciente.cidade}">Cidade</td>
-                        <td th:text="${paciente.fumante} ? 'Sim' : 'Não'">Fumante</td>
+                        <td th:text="${paciente.fumante} ? #{common.yes} : #{common.no}">Fumante</td>
                         <td th:text="${paciente.renda}">Renda</td>
                         <td th:text="${paciente.visitasPorAno}">Visitas por Ano</td>
                         <td th:text="${paciente.categoria}">Categoria</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a th:href="@{/pacientes/editar/{id}(id=${paciente.id})}" class="btn btn-sm btn-warning">
+                                <a th:href="@{/pacientes/editar/{id}(id=${paciente.id})}"
+                                   class="btn btn-sm btn-warning"
+                                   th:title="#{common.edit}">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 <a th:href="@{/pacientes/excluir/{id}(id=${paciente.id})}"
                                    class="btn btn-sm btn-danger"
-                                   onclick="return confirm('Tem certeza que deseja excluir este paciente?')">
+                                   th:title="#{common.delete}"
+                                   th:onclick="return confirm([[#{patient.delete.confirm}]])">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </div>

@@ -1,61 +1,62 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}"
+      th:lang="${#locale.language}">
 <head>
-    <title>Listagem de Ocorrências - ON-Data</title>
+    <title th:text="#{occurrence.list.title}">Listagem de Ocorrências - ON-Data</title>
 </head>
 <body>
 <section>
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Ocorrências</h2>
-        <a href="/ocorrencias/novo" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Nova Ocorrência</a>
+        <h2 th:text="#{occurrence.list.heading}">Ocorrências</h2>
+        <a href="/ocorrencias/novo" class="btn btn-primary"><i class="bi bi-plus-circle"></i> <span th:text="#{occurrence.new.button}">Nova Ocorrência</span></a>
     </div>
-
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Data</th>
-                        <th>Paciente</th>
-                        <th>Dentista</th>
-                        <th>Doença</th>
-                        <th>Valor</th>
-                        <th>Duração</th>
-                        <th>Status</th>
-                        <th>Ações</th>
+                        <th th:text="#{occurrence.code.column}">Código</th>
+                        <th th:text="#{occurrence.date.column}">Data</th>
+                        <th th:text="#{occurrence.patient.column}">Paciente</th>
+                        <th th:text="#{occurrence.dentist.column}">Dentista</th>
+                        <th th:text="#{occurrence.disease.column}">Doença</th>
+                        <th th:text="#{occurrence.value.column}">Valor</th>
+                        <th th:text="#{occurrence.duration.column}">Duração</th>
+                        <th th:text="#{occurrence.status.column}">Status</th>
+                        <th th:text="#{common.actions}">Ações</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:if="${ocorrencias.empty}">
-                        <td colspan="9" class="text-center">Nenhuma ocorrência registrada</td>
+                        <td colspan="9" class="text-center" th:text="#{occurrence.list.empty}">Nenhuma ocorrência registrada</td>
                     </tr>
                     <tr th:each="ocorrencia : ${ocorrencias}" th:class="${ocorrencia.aprovada ? 'table-success' : ''}">
                         <td th:text="${ocorrencia.codigoOcorrencia}">OC-001</td>
                         <td th:text="${#temporals.format(ocorrencia.data, 'dd/MM/yyyy HH:mm')}">01/01/2025 10:00</td>
                         <td th:text="${ocorrencia.pacienteNome}">Nome do Paciente</td>
                         <td th:text="${ocorrencia.dentistaNome}">Nome do Dentista</td>
-                        <td th:text="${ocorrencia.dentistaNome}">Nome da Doenca</td>
+                        <td th:text="${ocorrencia.doencaNome}">Nome da Doenca</td>
                         <td th:text="${'R$ ' + #numbers.formatDecimal(ocorrencia.valor, 1, 'POINT', 2, 'COMMA')}">R$ 100,00</td>
                         <td th:text="${ocorrencia.duracaoHoras + ' h'}">2.0 h</td>
                         <td>
-                            <span th:if="${ocorrencia.aprovada}" class="badge bg-success">Aprovada</span>
-                            <span th:unless="${ocorrencia.aprovada}" class="badge bg-warning">Pendente</span>
+                            <span th:if="${ocorrencia.aprovada}" class="badge bg-success" th:text="#{occurrence.status.approved}">Aprovada</span>
+                            <span th:unless="${ocorrencia.aprovada}" class="badge bg-warning" th:text="#{occurrence.status.pending}">Pendente</span>
                         </td>
                         <td>
                             <div class="btn-group" role="group">
                                 <a th:if="${!ocorrencia.aprovada}" th:href="@{/ocorrencias/aprovar/{id}(id=${ocorrencia.id})}"
-                                   class="btn btn-sm btn-success" title="Aprovar">
+                                   class="btn btn-sm btn-success" th:title="#{occurrence.action.approve}">
                                     <i class="bi bi-check-circle"></i>
                                 </a>
                                 <a th:href="@{/ocorrencias/editar/{id}(id=${ocorrencia.id})}"
-                                   class="btn btn-sm btn-warning" title="Editar">
+                                   class="btn btn-sm btn-warning" th:title="#{common.edit}">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 <a th:href="@{/ocorrencias/excluir/{id}(id=${ocorrencia.id})}"
-                                   class="btn btn-sm btn-danger" title="Excluir"
-                                   onclick="return confirm('Tem certeza que deseja excluir esta ocorrência?')">
+                                   class="btn btn-sm btn-danger" th:title="#{common.delete}"
+                                   th:onclick="return confirm([[#{occurrence.delete.confirm}]])">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </div>

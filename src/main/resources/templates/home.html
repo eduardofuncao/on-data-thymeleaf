@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::section})}" th:lang="en-US">
 <head>
-    <title>ON-Data - Sistema de Gestão</title>
+    <title th:text="#{app.title}">ON-Data - Sistema de Gestão</title>
 </head>
 <body>
 <section>
     <div class="text-center mb-5">
         <img th:src="@{/image/logo.jpg}" alt="logo">
-        <p class="lead">Sistema de Gestão de Ocorrências Odontológicas</p>
+        <p class="lead" th:text="#{app.subtitle}">Sistema de Gestão de Ocorrências Odontológicas</p>
     </div>
-
     <div class="row mb-5">
         <div class="col-md-4 mb-3">
             <div class="card h-100">
                 <div class="card-body text-center">
                     <i class="bi bi-person-vcard display-3 text-primary mb-3"></i>
-                    <h3 class="card-title">Pacientes</h3>
-                    <p class="card-text">Cadastro e histórico de pacientes.</p>
-                    <a href="/pacientes" class="btn btn-primary">Acessar</a>
+                    <h3 class="card-title" th:text="#{module.patients.title}">Pacientes</h3>
+                    <p class="card-text" th:text="#{module.patients.description}">Cadastro e histórico de pacientes.</p>
+                    <a href="/pacientes" class="btn btn-primary" th:text="#{button.access}">Acessar</a>
                 </div>
             </div>
         </div>
@@ -25,9 +24,9 @@
             <div class="card h-100">
                 <div class="card-body text-center">
                     <i class="bi bi-clipboard2-pulse display-3 text-primary mb-3"></i>
-                    <h3 class="card-title">Ocorrências</h3>
-                    <p class="card-text">Registro e acompanhamento de ocorrências odontológicas.</p>
-                    <a href="/ocorrencias" class="btn btn-primary">Acessar</a>
+                    <h3 class="card-title" th:text="#{module.occurrences.title}">Ocorrências</h3>
+                    <p class="card-text" th:text="#{module.occurrences.description}">Registro e acompanhamento de ocorrências odontológicas.</p>
+                    <a href="/ocorrencias" class="btn btn-primary" th:text="#{button.access}">Acessar</a>
                 </div>
             </div>
         </div>
@@ -35,9 +34,9 @@
             <div class="card h-100">
                 <div class="card-body text-center">
                     <i class="bi bi-bar-chart-line display-3 text-primary mb-3"></i>
-                    <h3 class="card-title">Relatórios</h3>
-                    <p class="card-text">Análise de dados e estatísticas.</p>
-                    <a href="/relatorios" class="btn btn-primary">Acessar</a>
+                    <h3 class="card-title" th:text="#{module.reports.title}">Relatórios</h3>
+                    <p class="card-text" th:text="#{module.reports.description}">Análise de dados e estatísticas.</p>
+                    <a href="/relatorios" class="btn btn-primary" th:text="#{button.access}">Acessar</a>
                 </div>
             </div>
         </div>
