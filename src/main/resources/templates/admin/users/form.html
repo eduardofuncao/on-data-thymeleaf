@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}"
+      th:lang="${#locale.language}">
+<head>
+    <title th:text="#{user.form.title}">Gerenciamento de Usuários - ON-Data</title>
+</head>
+<body>
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 th:text="${isNewUser ? #messages.msg('user.form.new') : #messages.msg('user.form.edit')}">Gerenciamento de Usuário</h2>
+        <a href="/admin/users" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> <span th:text="#{common.back}">Voltar</span></a>
+    </div>
+
+    <div class="alert alert-danger" th:if="${param.error}" role="alert">
+        <span th:text="#{${'user.error.' + param.error}}">Error message</span>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form th:action="@{${isNewUser ? '/admin/users/create' : '/admin/users/edit/' + user.id}}"
+                  method="post" th:object="${user}">
+
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="username" class="form-label" th:text="#{user.username}">Nome de Usuário</label>
+                        <input type="text" class="form-control" id="username" th:field="*{username}" required>
+                        <div class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="password" class="form-label" th:text="#{user.password}">Senha</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                               th:value="${isNewUser ? '' : ''}" th:required="${isNewUser}">
+                        <small th:if="${!isNewUser}" class="form-text text-muted" th:text="#{user.password.keep.empty}">
+                            Deixe em branco para manter a senha atual
+                        </small>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label" th:text="#{user.role}">Perfil</label>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-check" th:each="roleOption : ${allRoles}">
+                                    <input class="form-check-input" type="radio"
+                                           th:id="${'role-' + roleOption.name()}"
+                                           name="role"
+                                           th:value="${roleOption.name()}"
+                                           th:checked="${roleOption.name() == selectedRole}" />
+                                    <label class="form-check-label" th:for="${'role-' + roleOption.name()}"
+                                           th:text="#{'role.' + ${roleOption.name().toLowerCase()}}">Perfil</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" th:text="#{user.status}">Status</label>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="enabled" th:field="*{enabled}">
+                                    <label class="form-check-label" for="enabled" th:text="#{user.status.active}">Ativo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> <span th:text="#{common.save}">Salvar</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>
