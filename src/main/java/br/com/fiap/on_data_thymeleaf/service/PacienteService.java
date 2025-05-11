@@ -94,6 +94,7 @@ public class PacienteService {
         pacienteDTO.setNome(paciente.getNome());
         pacienteDTO.setGenero(paciente.getGenero());
         pacienteDTO.setIdade(paciente.getIdade());
+        pacienteDTO.setEmail(paciente.getEmail());
         pacienteDTO.setEndereco(paciente.getEndereco());
         pacienteDTO.setCidade(paciente.getCidade());
         pacienteDTO.setFumante(paciente.isFumante());
@@ -110,6 +111,7 @@ public class PacienteService {
         paciente.setNome(pacienteDTO.getNome());
         paciente.setGenero(pacienteDTO.getGenero());
         paciente.setIdade(pacienteDTO.getIdade());
+        paciente.setEmail(pacienteDTO.getEmail());
         paciente.setEndereco(pacienteDTO.getEndereco());
         paciente.setCidade(pacienteDTO.getCidade());
         paciente.setFumante(pacienteDTO.isFumante());

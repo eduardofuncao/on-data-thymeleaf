@@ -19,6 +19,8 @@
                     <tr>
                         <th th:text="#{common.id}">ID</th>
                         <th th:text="#{patient.name}">Nome</th>
+                        <!-- Add Email column header -->
+                        <th>Email</th>
                         <th th:text="#{patient.gender}">Gênero</th>
                         <th th:text="#{patient.age}">Idade</th>
                         <th th:text="#{patient.address}">Endereço</th>
@@ -32,11 +34,13 @@
                     </thead>
                     <tbody>
                     <tr th:if="${pacientes.empty}">
-                        <td colspan="11" class="text-center" th:text="#{patient.list.empty}">Nenhum paciente cadastrado</td>
+                        <td colspan="12" class="text-center" th:text="#{patient.list.empty}">Nenhum paciente cadastrado</td>
                     </tr>
                     <tr th:each="paciente : ${pacientes}">
                         <td th:text="${paciente.id}">1</td>
                         <td th:text="${paciente.nome}">Nome do Paciente</td>
+                        <!-- Add Email column data -->
+                        <td th:text="${paciente.email}">email@example.com</td>
                         <td th:text="${paciente.genero}">Gênero</td>
                         <td th:text="${paciente.idade}">Idade</td>
                         <td th:text="${paciente.endereco}">Endereço</td>

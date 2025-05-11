@@ -1,6 +1,7 @@
 package br.com.fiap.on_data_thymeleaf.service;
 
 import br.com.fiap.on_data_thymeleaf.controller.dto.OcorrenciaDTO;
+import br.com.fiap.on_data_thymeleaf.controller.dto.OcorrenciaMessage;
 import br.com.fiap.on_data_thymeleaf.controller.dto.PacienteDTO;
 import br.com.fiap.on_data_thymeleaf.entity.Dentista;
 import br.com.fiap.on_data_thymeleaf.entity.Doenca;
@@ -29,12 +30,16 @@ public class OcorrenciaService {
     private final DoencaRepository doencaRepository;
     private final DentistaRepository dentistaRepository;
 
+    private OcorrenciaMessageProducer messageProducer;
+
     public OcorrenciaService(OcorrenciaRepository ocorrenciaRepository, PacienteRepository pacienteRepository,
-                             DoencaRepository doencaRepository, DentistaRepository dentistaRepository) {
+                             DoencaRepository doencaRepository, DentistaRepository dentistaRepository,
+                             OcorrenciaMessageProducer messageProducer) {
         this.ocorrenciaRepository = ocorrenciaRepository;
         this.pacienteRepository = pacienteRepository;
         this.doencaRepository = doencaRepository;
         this.dentistaRepository = dentistaRepository;
+        this.messageProducer = messageProducer;
     }
 
     public OcorrenciaDTO criarOcorrencia(OcorrenciaDTO ocorrenciaDTO) {
@@ -62,6 +67,16 @@ public class OcorrenciaService {
         ocorrencia.setDentista(dentista);
 
         Ocorrencia savedOcorrencia = ocorrenciaRepository.save(ocorrencia);
+
+        OcorrenciaMessage message = new OcorrenciaMessage();
+        message.setPatientName( paciente.getNome() );
+        message.setPatientEmail("");
+        message.setCreatedAt( savedOcorrencia.getData() );
+        message.setOccurrenceId( savedOcorrencia.getId() );
+        message.setStatus( "CREATED" );
+        message.setDescription( "Ocorrência criada para o paciente");
+        messageProducer.sendOcorrenciaMessage(message);
+
         ocorrenciaDTO.setId(savedOcorrencia.getId());
         return ocorrenciaDTO;
     }

@@ -23,6 +23,13 @@
                     <div class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
                 </div>
 
+                <!-- Add Email Field -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+
                 <div class="mb-3">
                     <label for="genero" class="form-label" th:text="#{patient.gender}">Gênero</label>
                     <select class="form-control" id="genero" th:field="*{genero}" required>

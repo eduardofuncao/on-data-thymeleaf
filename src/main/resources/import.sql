@@ -26,11 +26,11 @@ INSERT INTO Doenca (nome, taxa_reincidencia, gravidade) VALUES ('Bruxismo', 0.1,
 INSERT INTO Doenca (nome, taxa_reincidencia, gravidade) VALUES ('Sensibilidade Dentária', 0.25, 'BAIXA');
 
 -- Insert Pacientes
-INSERT INTO Paciente (nome, genero, idade, endereco, cidade, fumante, renda, visitas_por_ano, categoria) VALUES ('Lucas Mendes', 'MASCULINO', 28, 'Rua das Acácias, 321', 'São Paulo', 0, 3000.00, 2.5, 'A');
-INSERT INTO Paciente (nome, genero, idade, endereco, cidade, fumante, renda, visitas_por_ano, categoria) VALUES ('Fernanda Lima', 'FEMININO', 34, 'Avenida das Palmeiras, 654', 'Rio de Janeiro', 1, 4500.00, 3.0, 'B');
-INSERT INTO Paciente (nome, genero, idade, endereco, cidade, fumante, renda, visitas_por_ano, categoria) VALUES ('Ricardo Alves', 'MASCULINO', 45, 'Rua dos Ipês, 987', 'Belo Horizonte', 0, 6000.00, 1.5, 'A');
-INSERT INTO Paciente (nome, genero, idade, endereco, cidade, fumante, renda, visitas_por_ano, categoria) VALUES ('Patrícia Santos', 'FEMININO', 29, 'Avenida das Flores, 1112', 'São Paulo', 1, 3500.00, 2.0, 'C');
-INSERT INTO Paciente (nome, genero, idade, endereco, cidade, fumante, renda, visitas_por_ano, categoria) VALUES ('Gabriel Costa', 'NAO_BINARIO', 50, 'Rua das Orquídeas, 1314', 'Curitiba', 0, 7000.00, 4.0, 'B');
+INSERT INTO Paciente (nome, genero, idade, email, endereco, cidade, fumante, renda, visitas_por_ano, categoria) VALUES ('Lucas Mendes', 'MASCULINO', 28, 'lucas@mail.com', 'Rua das Acácias, 321', 'São Paulo', 0, 3000.00, 2.5, 'A');
+INSERT INTO Paciente (nome, genero, idade, email, endereco, cidade, fumante, renda, visitas_por_ano, categoria) VALUES ('Fernanda Lima', 'FEMININO', 34, 'fernanda@mail.com', 'Avenida das Palmeiras, 654', 'Rio de Janeiro', 1, 4500.00, 3.0, 'B');
+INSERT INTO Paciente (nome, genero, idade, email, endereco, cidade, fumante, renda, visitas_por_ano, categoria) VALUES ('Ricardo Alves', 'MASCULINO', 45, 'ricardo@mail.com', 'Rua dos Ipês, 987', 'Belo Horizonte', 0, 6000.00, 1.5, 'A');
+INSERT INTO Paciente (nome, genero, idade, email, endereco, cidade, fumante, renda, visitas_por_ano, categoria) VALUES ('Patrícia Santos', 'FEMININO', 29, 'patricia@mail.com', 'Avenida das Flores, 1112', 'São Paulo', 1, 3500.00, 2.0, 'C');
+INSERT INTO Paciente (nome, genero, idade, email, endereco, cidade, fumante, renda, visitas_por_ano, categoria) VALUES ('Gabriel Costa', 'NAO_BINARIO', 50, 'gabriel@mail.com', 'Rua das Orquídeas, 1314', 'Curitiba', 0, 7000.00, 4.0, 'B');
 
 -- Insert Ocorrencias
 -- oracle

@@ -15,6 +15,9 @@ public class PacienteDTO {
 
     private int idade;
 
+    @NotBlank(message = "Email não pode ser vazio")
+    private String email;
+
     @NotBlank(message = "Endereço não pode ser vazio")
     private String endereco;
 
@@ -29,6 +32,14 @@ public class PacienteDTO {
     private double visitasPorAno;
 
     private Categoria categoria;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Long getId() {
         return id;
