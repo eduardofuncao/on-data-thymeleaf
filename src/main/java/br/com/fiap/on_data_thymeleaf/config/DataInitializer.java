@@ -113,7 +113,7 @@ public class DataInitializer implements CommandLineRunner {
 
         // Initialize Pacientes with proper enum values
         List<Paciente> pacientes = List.of(
-                createPaciente("Lucas Mendes", Genero.MASCULINO, 28, "lucas@mail.com", "Rua das Acácias, 321", "São Paulo", false, 3000.00, 2.5, Categoria.A),
+                createPaciente("Lucas Mendes", Genero.MASCULINO, 28, "eduardofunca@gmail.com", "Rua das Acácias, 321", "São Paulo", false, 3000.00, 2.5, Categoria.A),
                 createPaciente("Fernanda Lima", Genero.FEMININO, 34, "fernanda@mail.com", "Avenida das Palmeiras, 654", "Rio de Janeiro", true, 4500.00, 3.0, Categoria.B),
                 createPaciente("Ricardo Alves", Genero.MASCULINO, 45, "ricardo@mail.com", "Rua dos Ipês, 987", "Belo Horizonte", false, 6000.00, 1.5, Categoria.A),
                 createPaciente("Patrícia Santos", Genero.FEMININO, 29, "patricia@mail.com", "Avenida das Flores, 1112", "São Paulo", true, 3500.00, 2.0, Categoria.C),

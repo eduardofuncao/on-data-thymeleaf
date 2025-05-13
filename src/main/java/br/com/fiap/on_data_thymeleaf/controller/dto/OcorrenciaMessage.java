@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class OcorrenciaMessage implements Serializable {
-    private Long occurrenceId;
+    private String occurrenceId;
     private String patientName;
     private String patientEmail;
     private String description;
@@ -14,11 +14,11 @@ public class OcorrenciaMessage implements Serializable {
     public OcorrenciaMessage() {
     }
 
-    public Long getOccurrenceId() {
+    public String getOccurrenceId() {
         return occurrenceId;
     }
 
-    public void setOccurrenceId(Long occurrenceId) {
+    public void setOccurrenceId(String occurrenceId) {
         this.occurrenceId = occurrenceId;
     }
 

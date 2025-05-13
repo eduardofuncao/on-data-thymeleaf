@@ -70,9 +70,9 @@ public class OcorrenciaService {
 
         OcorrenciaMessage message = new OcorrenciaMessage();
         message.setPatientName( paciente.getNome() );
-        message.setPatientEmail("");
+        message.setPatientEmail( paciente.getEmail() );
         message.setCreatedAt( savedOcorrencia.getData() );
-        message.setOccurrenceId( savedOcorrencia.getId() );
+        message.setOccurrenceId( savedOcorrencia.getCodigoOcorrencia() );
         message.setStatus( "CREATED" );
         message.setDescription( "Ocorrência criada para o paciente");
         messageProducer.sendOcorrenciaMessage(message);
