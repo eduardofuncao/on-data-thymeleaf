@@ -1,0 +1,85 @@
+version: '3'
+
+services:
+  # Producer application that sends messages to RabbitMQ
+  producer:
+    image: eduardofuncao/on-data-thymeleaf
+    container_name: producer-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-network
+
+  # Consumer application that reads from RabbitMQ and connects to Ollama
+  consumer:
+    image: eduardofuncao/on-data-thymeleaf-consumer
+    container_name: consumer-app
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
+      - OLLAMA_API_URL=http://ollama:11434
+      # Add Java font configuration if needed
+      - JAVA_OPTS=-Duser.language=en -Duser.country=US
+    volumes:
+      # Mount fonts directory from host to container
+      - ./fonts:/usr/share/fonts  # Create and add fonts to this directory
+    depends_on:
+      - rabbitmq
+      - ollama
+    networks:
+      - app-network
+
+
+  # RabbitMQ service for message queuing
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"  # AMQP port
+      - "15672:15672" # Management UI
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - app-network
+
+  # Ollama service running llama3.2:3b model
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama-service
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    command: serve
+    networks:
+      - app-network
+    # Pre-pull the llama3.2:3b model when the container starts
+    # This ensures the model is ready when the consumer needs it
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  rabbitmq_data:
+  ollama_data:
+
+networks:
+  app-network:
+    driver: bridge
