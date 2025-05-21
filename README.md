@@ -20,12 +20,24 @@ ON-Data é um sistema de gestão para clínicas odontológicas desenvolvido com 
 - **Registro de Ocorrências:** Associação de pacientes, dentistas e doenças em registros detalhados.
 - **Fluxo de Aprovação:** Aprovação de ocorrências registradas.
 - **Dashboard de Relatórios:** Visualização de estatísticas e métricas a respeito das ocorrências.
+- **Autenticação e Gestão de Usuários:** Gerenciamento de usuários e admins.
+- **Envio de mensagens usando RabbitMQ para o serviço de integração com o Telegram:** Serviço consumidor disponível em 
+https://github.com/eduardofuncao/on-data-thymeleaf-consumer. A aplicação consumidora envia os dados para um bot do telegram, 
+personalizando cada mensagem utilizando spring AI conectado com um modelo de IA através do Ollama.
+- **Actuator:** Monitoramento da aplicação.
+- **Internacionalização:** Suporte para Inglês e Português.
+- **Containerização:** Projeto Completo pode ser executado através do arquivo `docker-compose.yml`
 
 ## Tecnologias Utilizadas
 - **Backend:**
   - Java 22
   - Spring Boot 3
   - Spring Data JPA
+  - Actuator
+  - Spring Security
+  - RabbitMQ
+  - Spring AI
+  - Telegram Bots
 
 - **Frontend:**
   - Thymeleaf
@@ -58,10 +70,16 @@ ON-Data é um sistema de gestão para clínicas odontológicas desenvolvido com 
    ```
    http://localhost:8080
    ```
+### Execução através do Docker
+O projeto completo (consumidor, produtor, rabbitMQ, Ollama) pode ser executado através do arquivo `docker-compose.yml`
+utilizando o seguinte comando:
+```bash
+docker-compose up -d
+```
+> Note que nessa execução, o arquivo entrypoint.sh é utilizando para obter o modelo llama3.2:3b automaticamente quando
+> o container é iniciado, fazendo com que a primeira execução possa demorar mais do que o esperado.
 
-### Deploy em Cloud
-
-## Screenshots
+### Fotos da Aplicação
 ![image](https://github.com/user-attachments/assets/d2f8a2a4-6e30-427f-a8b4-2e7ccde3765c)
 ![image](https://github.com/user-attachments/assets/21c85d87-c47f-4b5f-9915-6d035f5c6d16)
 ![image](https://github.com/user-attachments/assets/081f1b76-6b8d-42cd-9278-43ccaa852c88)
@@ -69,12 +87,12 @@ ON-Data é um sistema de gestão para clínicas odontológicas desenvolvido com 
 
 
 ## Video Demo
-https://youtu.be/p3AOhELqHiw
 
 ## Roadmap de Funcionalidades Futuras
 
-- [ ] Autenticação e autorização com Spring Security
-- [ ] Internacionalização
-- [ ] Recursos de Mensageria
-- [ ] Monitoramento com Spring Boot Actuator
-- [ ] Implementação de recursos de IA com Spring AI
+- [x] Autenticação e autorização com Spring Security
+- [x] Internacionalização
+- [x] Recursos de Mensageria
+- [x] Monitoramento com Spring Boot Actuator
+- [x] Implementação de recursos de IA com Spring AI
+- [x] Conteinerização
