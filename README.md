@@ -84,6 +84,7 @@ docker-compose up -d
 ![image](https://github.com/user-attachments/assets/21c85d87-c47f-4b5f-9915-6d035f5c6d16)
 ![image](https://github.com/user-attachments/assets/081f1b76-6b8d-42cd-9278-43ccaa852c88)
 ![image](https://github.com/user-attachments/assets/70a4ce48-027d-4d21-843f-b52b3868c46e)
+![image](https://github.com/user-attachments/assets/936e3573-0776-4cef-8f67-868b51ef983d)
 
 
 ## Video Demo
