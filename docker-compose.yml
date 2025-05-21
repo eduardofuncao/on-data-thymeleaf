@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-  # Producer application that sends messages to RabbitMQ
   producer:
     image: eduardofuncao/on-data-thymeleaf
     container_name: producer-app
@@ -17,7 +16,6 @@ services:
     networks:
       - app-network
 
-  # Consumer application that reads from RabbitMQ and connects to Ollama
   consumer:
     image: eduardofuncao/on-data-thymeleaf-consumer
     container_name: consumer-app
@@ -28,12 +26,8 @@ services:
       - SPRING_RABBITMQ_PORT=5672
       - SPRING_RABBITMQ_USERNAME=guest
       - SPRING_RABBITMQ_PASSWORD=guest
-      - OLLAMA_API_URL=http://ollama:11434
-      # Add Java font configuration if needed
-      - JAVA_OPTS=-Duser.language=en -Duser.country=US
-    volumes:
-      # Mount fonts directory from host to container
-      - ./fonts:/usr/share/fonts  # Create and add fonts to this directory
+      - OLLAMA_HOST=ollama
+      - OLLAMA_PORT=11434
     depends_on:
       - rabbitmq
       - ollama
@@ -41,7 +35,6 @@ services:
       - app-network
 
 
-  # RabbitMQ service for message queuing
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
@@ -56,7 +49,6 @@ services:
     networks:
       - app-network
 
-  # Ollama service running llama3.2:3b model
   ollama:
     image: ollama/ollama:latest
     container_name: ollama-service
@@ -64,17 +56,17 @@ services:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
+      - ./entrypoint.sh:/entrypoint.sh
     command: serve
     networks:
       - app-network
-    # Pre-pull the llama3.2:3b model when the container starts
-    # This ensures the model is ready when the consumer needs it
     healthcheck:
       test: ["CMD", "ollama", "list"]
       interval: 30s
       timeout: 10s
       retries: 3
     restart: unless-stopped
+    entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
 
 volumes:
   rabbitmq_data:
