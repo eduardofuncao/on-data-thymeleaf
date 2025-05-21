@@ -51,6 +51,8 @@ personalizando cada mensagem utilizando spring AI conectado com um modelo de IA 
 ## Diagrama Entidade Relacionamento
 ![384556710-1f80d9cb-08d4-4d96-8207-a67ef1b229ce](https://github.com/user-attachments/assets/7af3ff08-2465-4a2f-8c95-26cc754a14b1)
 
+## Arquitetura Simplificada do Projeto
+![Arquitetura do Projeto](https://raw.githubusercontent.com/eduardofuncao/on-data-thymeleaf/main/drawio/on-data-thymeleaf.drawio.svg)
 
 ## Instalação e Execução
 ### Pré-requisitos
